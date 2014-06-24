@@ -1,0 +1,85 @@
+
+a:link {color:cyan;text-decoration: none;} /* непосещенная ссылка */
+a:visited {color:cyan;text-decoration: none;} /* посещенная ссылка */
+a:hover {color:cyan;text-decoration: none;} /* ссылка, над которой находится курсор мыши */
+a:active {color:cyan;text-decoration: none;} /* ссылка в момент щелчка мышью */
+
+html 
+{
+    font-family: "Times New Roman";
+    background-color: black;
+    background-image: url(Serial-Experiments-Lain-Wallpapers-043.jpg) ;
+    -moz-background-size: 100%; 
+    -webkit-background-size: 100%; 
+    -o-background-size: 100%; 
+    background-size: 100%; 
+    
+    color: white
+}
+div.menu_panel 
+{   
+    background-color: black;
+    color: cyan;
+    font-size: 200%;
+    width:25%;
+    padding:10px;
+    border:5px solid grey;
+    margin:10px;
+    border-radius: 30px 15px;
+    text-shadow: 8px 8px 5px rgba(0,100,0,.9);
+}
+
+div.content_box 
+{   
+    background-color: black;
+    color: cyan;
+    font-size: 150%;
+    width:65%;
+    padding:10px;
+    border:5px solid grey;
+    margin:10px;
+    height: 90%;
+    border-radius: 30px 15px;
+    text-shadow: 8px 8px 5px rgba(0,100,0,.9);
+    
+    position:absolute;
+    left:30%;
+    top:0px;
+}
+
+.rotated
+{
+    position:absolute;
+    left:15%;
+    bottom:30%;
+    
+    color:white;
+    
+    text-shadow: 8px 8px 3px rgba(1000,1000,1000,.9);
+    
+    -webkit-transform: rotate(-35deg);
+    -moz-transform: rotate(-35deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-35);
+    -o-transform: rotate(-35deg);
+    font-size: 700%;
+}
+
+.transparent 
+{
+   filter:alpha(opacity=50);
+   -moz-opacity:0.5;
+   -khtml-opacity:0.5;
+   opacity:0.5;
+   
+   z-index:1;
+}
+
+.transparent_strong
+{
+   filter:alpha(opacity=90);
+   -moz-opacity:0.9;
+   -khtml-opacity:0.9;
+   opacity:0.9;
+   
+   z-index:2;
+}
