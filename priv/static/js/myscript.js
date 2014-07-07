@@ -22,7 +22,7 @@ controllers.my_controller = function($scope, $http, $interval, $sanitize, $cooki
 			{	
 				if($scope.new_username != undefined)
 				{
-					var mess = {"type" : "ping", "content" : $scope.new_username};
+					var mess = {"type" : "update_username", "content" : $scope.new_username};
 			    	$scope.bullet.send(JSON.stringify(mess));
 			    	$scope.new_username = undefined
 				}
@@ -35,7 +35,7 @@ controllers.my_controller = function($scope, $http, $interval, $sanitize, $cooki
 			}
 
 			// connect bullet 
-		    $scope.bullet = $.bullet('ws://localhost:8080/bullet');
+		    $scope.bullet = $.bullet('ws://192.168.1.17:8080/bullet');
 		    // define bullet callbacks
 		    $scope.bullet.onopen = function(){
 		        console.log('bullet: opened');

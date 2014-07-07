@@ -18,13 +18,13 @@ defmodule CowboyEx.OnlineUserkeeper do
 	##################
 
 	def add_username(username) when is_binary(username) do
-		new_online_users = Dict.put (Exdk.get("online_users")), makeid, username
+		new_online_users = Dict.put(Exdk.get("online_users"), username, makeid)
 		Exdk.put "online_users", new_online_users
 		:ok
 	end
 
 	def user_exist?(username) when is_binary(username) do
-		Enum.member?(Dict.values(Exdk.get("online_users")), username)
+		Enum.member?(Dict.keys(Exdk.get("online_users")), username)
 	end
 
 	#def get_users do
@@ -44,7 +44,7 @@ defmodule CowboyEx.OnlineUserkeeper do
 			:not_found -> Exdk.put "online_users", %{}
 			map when is_map(map) -> :ok
 		end
-		{:ok, nil, @timeout}
+		{:ok, nil} #, @timeout}
 	end
 
 

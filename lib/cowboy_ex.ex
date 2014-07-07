@@ -118,19 +118,28 @@ defmodule CowboyEx.WebHandler do
 
   defp handle_message_from_client( %ChatProtocol{type: type, content: content} ) do
     case type do
-      "ping" -> IO.puts content
-                case content do
+      "ping" -> case content do
                   "anon" -> Jazz.encode!(%ChatProtocol{type: "update_username", content: inspect(self)})
                   <<"#PID<", _rest::binary>> -> Jazz.encode!(%ChatProtocol{type: "update_username", content: inspect(self)})
-                  bin when is_binary(bin) -> try_update_username(bin)
+                  bin when (is_binary(bin) or is_number(bin)) ->  ping_username(to_string(bin))
                 end
+      "update_username" -> case content do
+                            "anon" -> Jazz.encode!(%ChatProtocol{type: "update_username", content: inspect(self)})
+                            <<"#PID<", _rest::binary>> -> Jazz.encode!(%ChatProtocol{type: "update_username", content: inspect(self)})
+                            bin when (is_binary(bin) or is_number(bin)) ->  try_update_username(to_string(bin))
+                          end
     end
+  end
+
+  defp ping_username username do
+    CowboyEx.OnlineUserkeeper.add_username(username)
+    Jazz.encode!(%ChatProtocol{type: "update_username", content: username})
   end
 
   defp try_update_username new_username do
     case CowboyEx.OnlineUserkeeper.user_exist?(new_username) do
       true -> Jazz.encode!(%ChatProtocol{type: "error", content: "User #{new_username} is already exist!"})
-      false ->  CowboyEx.OnlineUserkeeper.add_user(new_username)
+      false ->  CowboyEx.OnlineUserkeeper.add_username(new_username)
                 Jazz.encode!(%ChatProtocol{type: "update_username", content: new_username})
     end
   end
