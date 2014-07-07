@@ -1,0 +1,72 @@
+
+a:link {color:cyan;text-decoration: none;} /* непосещенная ссылка */
+a:visited {color:cyan;text-decoration: none;} /* посещенная ссылка */
+a:hover {color:cyan;text-decoration: none;} /* ссылка, над которой находится курсор мыши */
+a:active {color:cyan;text-decoration: none;} /* ссылка в момент щелчка мышью */
+
+html, body {
+    height: 100%;
+    background-image: url(../img/Serial-Experiments-Lain-Wallpapers-043.jpg) ;
+    overflow: auto;
+}
+
+.fill { 
+    min-height: 100%;
+    height: 100%;
+}
+.fill62 { 
+    min-height: 62%;
+    height: 62%;
+}
+.fill20 { 
+    min-height: 20%;
+    height: 20%;
+}
+
+.width50
+{
+min-width: 45%;
+width: 45%;
+}
+.width90
+{
+min-width: 90%;
+width: 90%;
+}
+.fillwidth
+{
+min-width: 100%;
+width: 100%;
+}
+
+.myfont
+{   
+    font-size: 120%;
+    background-color: black;
+    color: cyan;
+    text-shadow: 8px 8px 5px rgba(0,25,0,.9);
+}
+
+.scrollbar
+{
+    overflow: auto;
+     -ms-overflow-style: none;
+}
+.scrollbar::-webkit-scrollbar {
+ display: none;
+}
+
+div.panel 
+{   
+    font-size: 150%;
+    background-color: black;
+    color: cyan;
+    border:5px solid grey;
+    margin:10px;
+    padding: 15px;
+    border-radius: 30px 15px;
+    text-shadow: 8px 8px 5px rgba(0,100,0,.9);
+    opacity:0.7;
+}
+
+

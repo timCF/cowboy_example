@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="tim_chat">
+  <head>
+    <title>Close the world. Open the next.</title>
+    <!-- Bootstrap -->
+    <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="./css/Style.css" rel="stylesheet" media="screen">
+
+  </head>
+  <body ng-controller="my_controller" ng-init="init()">
+
+
+
+<div class="container-fluid fill">
+  <div class="row-fluid fill">
+
+    <div class="span4 fill">
+        <div class="panel fill20">
+
+          <center>
+            <p>Hi, {{username}}!</p>
+           <textarea rows="1" class="width90 myfont" placeholder="Nickname" ng-model="new_username"></textarea>
+          <br>
+          <button ng-click="log_in()" class="btn btn-large width50">Log in</button>
+          <button ng-click="log_out()" class="btn btn-large width50">Log out</button>
+          </center>
+        </div>
+      <div ng-bind-html="online_users_html" class="panel fill62 scrollbar" id="container">
+      </div>
+    </div>
+
+    
+
+    <div class="span8 fill">
+      <div class="panel scrollbar fill62">
+        213
+      </div>
+      <div class="panel scrollbar fill20">
+        <form class="fillwidth">
+          <center>
+           <textarea rows="3" class="width90 myfont" placeholder="Type something" ng-model="message"></textarea>
+          <br>
+           <button ng-click="send_message()" class="btn btn-large width50">Send message</button>
+          </center>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  </body>
+
+  <script src="./js/jquery.js"></script>
+  <script src="./js/bullet.js"></script>
+
+  <script src="./js/angular.js"></script>
+  <script src="./js/angular-sanitize.js"></script>
+  <script src="./js/angular-cookies.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+
+  <script src="./js/myscript.js"></script>
+
+</html>
