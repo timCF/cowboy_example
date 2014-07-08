@@ -37,7 +37,7 @@
       <div class="panel scrollbar fill20">
         <form class="fillwidth">
           <center>
-           <textarea rows="3" class="width90 myfont" placeholder="Type something" ng-model="new_message"></textarea>
+           <textarea ng-enter="send_message()" rows="3" class="width90 myfont" placeholder="Type something" ng-model="new_message"></textarea>
           <br>
            <button ng-click="send_message()" class="btn btn-large width50">Send message</button>
           </center>
