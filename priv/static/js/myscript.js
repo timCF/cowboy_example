@@ -47,7 +47,7 @@ controllers.my_controller = function($scope, $http, $interval, $sanitize, $cooki
 			}
 
 			// connect bullet 
-		    $scope.bullet = $.bullet('ws://localhost:8080/bullet');
+		    $scope.bullet = $.bullet('ws://176.193.9.127:8080/bullet');
 		    // define bullet callbacks
 		    $scope.bullet.onopen = function(){
 

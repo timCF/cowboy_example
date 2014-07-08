@@ -1,8 +1,8 @@
 
-a:link {color:cyan;text-decoration: none;} /* непосещенная ссылка */
-a:visited {color:cyan;text-decoration: none;} /* посещенная ссылка */
-a:hover {color:cyan;text-decoration: none;} /* ссылка, над которой находится курсор мыши */
-a:active {color:cyan;text-decoration: none;} /* ссылка в момент щелчка мышью */
+a:link {color:cyan;text-decoration: none;} 
+a:visited {color:cyan;text-decoration: none;} 
+a:hover {color:cyan;text-decoration: none;} 
+a:active {color:cyan;text-decoration: none;}
 
 html, body {
     height: 100%;
