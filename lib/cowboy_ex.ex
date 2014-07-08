@@ -12,7 +12,7 @@ defmodule CowboyEx do
       # worker(CowboyEx.Worker, [arg1, arg2, arg3])
     ]
 
-    prepare_script()
+    #prepare_script()
 
     CowboyEx.WebRoutes.start
 
