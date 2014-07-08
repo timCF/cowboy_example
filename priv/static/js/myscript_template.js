@@ -21,7 +21,7 @@ controllers.my_controller = function($scope, $http, $interval, $sanitize, $cooki
 		{
 
 			// define callbacks for bullet events
-		    $scope.bullet = $.bullet('ws://169.254.54.123:8080/bullet');
+		    $scope.bullet = $.bullet('ws://SERVER_IP_ADDRESS:8080/bullet');
 		    $scope.bullet.onopen = function(){
 				var mess = {"type" : "update_username", "content" : $scope.username};
 			    $scope.bullet.send(JSON.stringify(mess));

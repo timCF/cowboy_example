@@ -12,6 +12,8 @@ defmodule CowboyEx do
       # worker(CowboyEx.Worker, [arg1, arg2, arg3])
     ]
 
+    prepare_script()
+
     CowboyEx.WebRoutes.start
 
     :pg2.create("users")
@@ -24,6 +26,17 @@ defmodule CowboyEx do
     opts = [strategy: :one_for_one, name: CowboyEx.Supervisor]
     Supervisor.start_link(children, opts)
   end
+
+  defp prepare_script do
+    ip = System.cmd("curl ifconfig.me/ip")
+          |> String.split("\n")
+            |> Enum.filter(&(&1 != ""))
+              |> List.last
+    res = File.read!( (:erlang.list_to_binary(:code.priv_dir(:cowboy_ex)))<>"/static/js/myscript_template.js" )
+            |> String.replace("SERVER_IP_ADDRESS", ip)
+    File.write!( (:erlang.list_to_binary(:code.priv_dir(:cowboy_ex)))<>"/static/js/myscript.js", res )
+  end
+  
 end
 
 
