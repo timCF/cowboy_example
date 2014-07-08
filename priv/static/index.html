@@ -25,20 +25,19 @@
           <button ng-click="log_out()" class="btn btn-large width50">Log out</button>
           </center>
         </div>
-      <div ng-bind-html="online_users_html" class="panel fill62 scrollbar" id="container">
+      <div ng-bind-html="userlist" class="panel fill62 scrollbar" id="container">
       </div>
     </div>
 
     
 
     <div class="span8 fill">
-      <div class="panel scrollbar fill62">
-        213
+      <div ng-bind-html="messages" class="panel scrollbar fill62">
       </div>
       <div class="panel scrollbar fill20">
         <form class="fillwidth">
           <center>
-           <textarea rows="3" class="width90 myfont" placeholder="Type something" ng-model="message"></textarea>
+           <textarea rows="3" class="width90 myfont" placeholder="Type something" ng-model="new_message"></textarea>
           <br>
            <button ng-click="send_message()" class="btn btn-large width50">Send message</button>
           </center>

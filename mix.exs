@@ -18,7 +18,7 @@ defmodule CowboyEx.Mixfile do
                     :exactor,
                     :jazz,
                     :bullet,
-                    :exlager
+                    #:exlager
                     ],
      mod: {CowboyEx, []}]
   end

@@ -1,8 +1,9 @@
 defmodule CowboyEx.OnlineUserkeeper do
 	
-	use ExActor.GenServer
+	use ExActor.GenServer, export: :OnlineUserkeeper
 
 	@timeout :timer.seconds 1
+	@online_delay 60000000 # 1 min of delay before make user offline
 
 	##################
 	### priv func ####
@@ -13,11 +14,31 @@ defmodule CowboyEx.OnlineUserkeeper do
 		a*1000000000000 + b*1000000 + c
 	end
 
+	defp user_entered_notification(username) do
+		Enum.each(:pg2.get_members("users"), &(send &1, {:user_entered, username}))
+		mess = "<center><div class=\"subdata\"><hr></div>"<>String.strip(System.cmd("date"))<>"<br>"<>username<>" entered tim_chat</center>"
+		Enum.each(:pg2.get_members("users"), &(send &1, {:add_new_message, mess}))
+	end
+
+	defp make_user_disconnect(username) do
+		Exdk.put "online_users", Dict.delete(Exdk.get("online_users"), username)
+		Enum.each(:pg2.get_members("users"), &(send &1, {:user_exited, username}))
+		mess = "<center><div class=\"subdata\"><hr></div>"<>String.strip(System.cmd("date"))<>"<br>"<>username<>" disconnected from tim_chat</center>"
+		Enum.each(:pg2.get_members("users"), &(send &1, {:add_new_message, mess}))
+	end	
+
 	##################
 	### API ##########
 	##################
 
 	def add_username(username) when is_binary(username) do
+		new_online_users = Dict.put(Exdk.get("online_users"), username, makeid)
+		Exdk.put "online_users", new_online_users
+		user_entered_notification(username)
+		:ok
+	end
+
+	def ping_username(username) when is_binary(username) do
 		new_online_users = Dict.put(Exdk.get("online_users"), username, makeid)
 		Exdk.put "online_users", new_online_users
 		:ok
@@ -27,8 +48,13 @@ defmodule CowboyEx.OnlineUserkeeper do
 		Enum.member?(Dict.keys(Exdk.get("online_users")), username)
 	end
 
-	#def get_users do
-	#	Enum.map( Dict.to_list(Exdk.get("online_users")), fn({k,v}) )
+	def get_userlist_html do
+		Enum.reduce( Dict.keys(Exdk.get("online_users")),
+							"Online users:<br><br>",
+							fn(username, acc) -> 
+								acc<>username<>"<br>"
+							end)
+	end
 
 
 
@@ -44,10 +70,19 @@ defmodule CowboyEx.OnlineUserkeeper do
 			:not_found -> Exdk.put "online_users", %{}
 			map when is_map(map) -> :ok
 		end
-		{:ok, nil} #, @timeout}
+		{:ok, nil, @timeout}
 	end
 
-
+	definfo :timeout do
+		Enum.each(Dict.to_list(Exdk.get("online_users")), 
+			fn({username, timestamp}) ->
+				case (makeid - timestamp) > @online_delay do
+					true -> make_user_disconnect(username)
+					false -> :ok
+				end
+			end)
+		{:noreply, nil, @timeout}
+	end
 
 
 end

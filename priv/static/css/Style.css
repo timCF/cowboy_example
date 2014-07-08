@@ -46,6 +46,14 @@ width: 100%;
     color: cyan;
     text-shadow: 8px 8px 5px rgba(0,25,0,.9);
 }
+.subdata
+{   
+    font-size: 120%;
+    background-color: black;
+    color: grey;
+    text-shadow: 8px 8px 5px rgba(0,25,0,.9);
+    opacity:0.5;
+}
 
 .scrollbar
 {

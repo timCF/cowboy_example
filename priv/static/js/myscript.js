@@ -33,13 +33,31 @@ controllers.my_controller = function($scope, $http, $interval, $sanitize, $cooki
 		    	$scope.bullet.send(JSON.stringify(mess));
 		    	$scope.new_username = undefined
 			}
+			$scope.send_message = function()
+			{
+				if($scope.new_message != undefined)
+				{	
+					var content = {}
+					content.message = $scope.new_message
+					content.autor = $scope.username
+					var mess = {"type" : "text_mesage", "content" : content};
+					$scope.bullet.send(JSON.stringify(mess));
+		    		$scope.new_message = undefined
+				}
+			}
 
 			// connect bullet 
-		    $scope.bullet = $.bullet('ws://192.168.1.17:8080/bullet');
+		    $scope.bullet = $.bullet('ws://localhost:8080/bullet');
 		    // define bullet callbacks
 		    $scope.bullet.onopen = function(){
-		        console.log('bullet: opened');
-		    };
+
+		    	// send username
+				var mess = {"type" : "update_username", "content" : $scope.username};
+			    $scope.bullet.send(JSON.stringify(mess));
+			    mess = {"type" : "get_history", "content" : "null"};
+			    $scope.bullet.send(JSON.stringify(mess));
+			    console.log('bullet: connected')
+		    };	
 		    $scope.bullet.ondisconnect = function(){
 		        console.log('bullet: disconnected');
 		    };
@@ -57,6 +75,18 @@ controllers.my_controller = function($scope, $http, $interval, $sanitize, $cooki
 		        	$cookies.username = mess.content;
 		        	$scope.username = mess.content;
 		        };
+		        if(mess.type == "update_userlist")
+		        {
+		        	$scope.userlist = $sanitize(mess.content);
+		        };
+		       	if(mess.type == "add_message")
+		        {
+		        	$scope.messages = $sanitize(mess.content)+$scope.messages;
+		        };
+		        if(mess.type == "set_history")
+		        {
+		        	$scope.messages = $sanitize(mess.content);
+		        };
 		    };
 		    // send your nickname to show that you alive
 		    $scope.bullet.onheartbeat = function(){
@@ -66,6 +96,7 @@ controllers.my_controller = function($scope, $http, $interval, $sanitize, $cooki
 			$interval(function(){}, 500, [], []);
 
 		}
+
 	};
 
 tim_chat.controller(controllers);
