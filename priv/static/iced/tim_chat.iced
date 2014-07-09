@@ -1,16 +1,6 @@
 tim_chat = angular.module "tim_chat", ["ngSanitize", "ngCookies"] 
 controllers = {}
 
-tim_chat.directive(	
-					"ngEnter",
-					() ->
-						(scope, element, attrs) -> 
-							element.bind("keydown keypress", (event) ->
-							if event.which == 13
-								scope.$apply(() -> scope.$eval(attrs.ngEnter))
-								event.preventDefault()
-            
-				))
 
 controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 	$scope.init = () ->
@@ -67,6 +57,9 @@ controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 				mess = {"type" : "text_mesage", "content" : content}
 				$scope.bullet.send(JSON.stringify(mess))
 				$scope.new_message = undefined
+		$scope.keypress_handler = ($event) ->
+			if $event.which == 13
+				$scope.send_message()
 
 		$interval( (->) , 500, [], [])
 

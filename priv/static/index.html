@@ -35,9 +35,9 @@
       <div ng-bind-html="messages" class="panel scrollbar fill62">
       </div>
       <div class="panel scrollbar fill20">
-        <form class="fillwidth">
+        <form ng-keypress="keypress_handler($event)" class="fillwidth">
           <center>
-           <textarea ng-enter="send_message()" rows="3" class="width90 myfont" placeholder="Type something" ng-model="new_message"></textarea>
+           <textarea type="text" rows="3" class="width90 myfont" placeholder="Type something" ng-model="new_message"></textarea>
           <br>
            <button ng-click="send_message()" class="btn btn-large width50">Send message</button>
           </center>
@@ -57,6 +57,7 @@
   <script src="./js/angular.js"></script>
   <script src="./js/angular-sanitize.js"></script>
   <script src="./js/angular-cookies.js"></script>
+  <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
   <script src="./js/bootstrap.min.js"></script>
 
   <!--script src="./js/coffe-script.js"></script-->
