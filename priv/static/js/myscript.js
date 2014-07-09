@@ -1,3 +1,4 @@
+/*
 var tim_chat = angular.module("tim_chat",["ngSanitize", "ngCookies"]);
 var controllers = {};
 
@@ -14,6 +15,11 @@ tim_chat.directive('ngEnter', function() {
             });
         };
 });
+*/
+
+var controllers = window.controllers
+var tim_chat = window.tim_chat
+
 
 controllers.my_controller = function($scope, $http, $interval, $sanitize, $cookies)
 	{
