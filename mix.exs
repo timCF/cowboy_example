@@ -13,11 +13,12 @@ defmodule CowboyEx.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [applications: [
-                    :exdk,
+                    #:exdk,
                     :cowboy,
                     :exactor,
                     :jazz,
                     :bullet,
+                    #:amnesia
                     #:exlager
                     ],
      mod: {CowboyEx, []}]
@@ -34,10 +35,11 @@ defmodule CowboyEx.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
+      {:amnesia, github: "meh/amnesia"},
       {:exlager, github: "khia/exlager"},
       {:bullet, github: "extend/bullet"},
       {:jazz, github: "meh/jazz"},
-      {:exdk, github: "timCF/exdk"},
+      #{:exdk, github: "timCF/exdk"},
       {:cowboy, github: "extend/cowboy", tag: "0.9.0"},
       {:exrm, github: "bitwalker/exrm"},
       {:exactor, github: "sasa1977/exactor"}

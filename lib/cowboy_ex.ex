@@ -6,6 +6,8 @@ defmodule CowboyEx do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    DBA.install_disk
+
     children = [  worker(CowboyEx.OnlineUserkeeper, []),
                   worker(CowboyEx.Messanger, [])
       # Define workers and child supervisors to be supervised
