@@ -59,6 +59,7 @@ controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 				$scope.new_message = undefined
 		$scope.keypress_handler = ($event) ->
 			if $event.which == 13
+				$event.preventDefault()
 				$scope.send_message()
 
 		$interval( (->) , 500, [], [])
