@@ -18,7 +18,7 @@
         <div class="panel fill20">
 
           <center>
-            <p>Hi, {{username}}!</p>
+            <div ng-bind-html="greeting"></div>
            <textarea rows="1" class="width90 myfont" placeholder="Nickname" ng-model="new_username"></textarea>
           <br>
           <button ng-click="log_in()" class="btn btn-large width50">Log in</button>
