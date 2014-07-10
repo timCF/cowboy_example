@@ -69,30 +69,11 @@ defmodule CowboyEx.WebHandler do
   end
 
   def init(_Transport, req, _Opts, _Active) do
-      
       :pg2.join("users", self)
-
-      IO.puts "\nINIT"
-      IO.puts "\nTRANSPORT:"
-      IO.inspect _Transport
-      IO.puts "\nREQUEST:"
-      IO.inspect req
-      IO.puts "\nOPTIONS:"
-      IO.inspect _Opts
-      IO.puts "\nACTIVE:"
-      IO.inspect _Active
       {:ok, req, :undefined_state}
   end
 
   def stream(data, req, state) do
-      IO.puts "\nSTREAM"
-      IO.puts "\nDATA:"
-      IO.inspect data
-      IO.puts "\nREQUEST:"
-      IO.inspect req
-      IO.puts "\nSTATE:"
-      IO.inspect state
-
       ans = case mess = (Jazz.decode(data, keys: :atoms)) do
               {:ok, map} -> case map do
                               %{type: type, content: content} -> handle_message_from_client(%ChatProtocol{type: type, content: content})
@@ -107,65 +88,24 @@ defmodule CowboyEx.WebHandler do
   end
 
   def info({:user_entered, username}, req, state) do
-      IO.puts "\nINFO"
-      IO.puts "\nINFO:"
-      #IO.inspect _Info
-      IO.puts "\nREQUEST:"
-      IO.inspect req
-      IO.puts "\nSTATE:"
-      IO.inspect state
-
-      File.write "./tmp", "hi there!"
-
       ans = Jazz.encode!(%ChatProtocol{type: "update_userlist", content: CowboyEx.OnlineUserkeeper.get_userlist_html()})
-
       {:reply, ans, req, state}
   end
   def info({:user_exited, username}, req, state) do
-      IO.puts "\nINFO"
-      IO.puts "\nINFO:"
-      #IO.inspect _Info
-      IO.puts "\nREQUEST:"
-      IO.inspect req
-      IO.puts "\nSTATE:"
-      IO.inspect state
-
       ans = Jazz.encode!(%ChatProtocol{type: "update_userlist", content: CowboyEx.OnlineUserkeeper.get_userlist_html()})
-
       {:reply, ans, req, state}
   end
   def info({:add_new_message, mess}, req, state) do
-
-      File.write "./tmp", "hi there!"
-
-      File.write "./tmp", Jazz.encode!(%ChatProtocol{type: "add_message", content: mess})
-
       ans = Jazz.encode!(%ChatProtocol{type: "add_message", content: mess})
-
       {:reply, ans, req, state}
   end
 
   def info(_Info, req, state) do
-      IO.puts "\nINFO"
-      IO.puts "\nINFO:"
-      IO.inspect _Info
-      IO.puts "\nREQUEST:"
-      IO.inspect req
-      IO.puts "\nSTATE:"
-      IO.inspect state
       {:ok, req, state}
   end
 
   def terminate(req, state) do
-
     :pg2.leave "users", self
-
-      IO.puts "\nTERMINATE" 
-      IO.puts "\nREQUEST:"
-      IO.inspect req
-      IO.puts "\nSTATE:"
-      IO.inspect state
-      :ok
   end
 
   defp handle_message_from_client( %ChatProtocol{type: type, content: content} ) do

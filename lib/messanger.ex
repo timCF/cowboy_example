@@ -30,7 +30,9 @@ defmodule CowboyEx.Messanger do
 	end
 
 	def process_new_message(message, autor) when is_binary(message) and is_binary(autor) do
-		mess = "<div class=\"subdata\"><hr>"<>String.strip(System.cmd("date"))<>"<br>"<>autor<>"<br></div><center>"<>message<>"</center>"
+		date = String.strip(System.cmd("date"))
+		mess = 	EEx.eval_file :erlang.list_to_binary(:code.priv_dir(:cowboy_ex))<>"/static/ex/user_message.ex",
+				[date: date, autor: autor, message: message]	
 		new_history = Exdk.get("messages_history") ++ [mess]
 		Exdk.put("messages_history", new_history)
 
