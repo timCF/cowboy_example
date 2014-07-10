@@ -7,7 +7,7 @@ controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 		# define callbacks for bullet events
 		$scope.bullet = $.bullet("ws://#{location.host}/bullet")
 		$scope.bullet.onopen = () ->
-			mess = {"type" : "update_username", "content" : $scope.username}
+			mess = {"type" : "update_username", "content" : $scope.safe_input($scope.username)}
 			$scope.bullet.send(JSON.stringify(mess))
 			mess = {"type" : "get_history", "content" : "null"}
 			$scope.bullet.send(JSON.stringify(mess))
@@ -21,17 +21,17 @@ controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 	    	if mess.type == "error" 
 	        	alert mess.content 
 	        if mess.type == "update_username"
-	        	$cookies.username = mess.content
-	        	$scope.username = mess.content
+	        	$cookies.username = $scope.safe_input(mess.content)
+	        	$scope.username = $scope.safe_input(mess.content)
 	        if mess.type == "update_userlist"
-	        	$scope.userlist = $sanitize mess.content 
+	        	$scope.userlist = $scope.safe_input(mess.content) 
 	       	if mess.type == "add_message"
-	        	$scope.messages = "#{$sanitize(mess.content)}#{$scope.messages}"
+	        	$scope.messages = "#{$sanitize($scope.safe_input(mess.content))}#{$scope.messages}"
 	        if mess.type == "set_history"
-	        	$scope.messages = $sanitize mess.content 
+	        	$scope.messages = $scope.safe_input(mess.content) 
 	    # send your nickname to show that you alive
 	    $scope.bullet.onheartbeat = () ->
-	    	mess = {"type" : "ping", "content" : $scope.username}
+	    	mess = {"type" : "ping", "content" : $scope.safe_input($scope.username)}
 	    	$scope.bullet.send(JSON.stringify(mess))
 
 		# set cookies and username by default if it necessary
@@ -42,7 +42,7 @@ controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 		# define callbacks for user interface
 		$scope.log_in = () ->
 			if $scope.new_username != undefined 
-				mess = {"type" : "update_username", "content" : $scope.new_username}
+				mess = {"type" : "update_username", "content" : $scope.safe_input($scope.new_username)}
 				$scope.bullet.send(JSON.stringify(mess))
 				$scope.new_username = undefined
 		$scope.log_out = () ->
@@ -52,8 +52,8 @@ controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 		$scope.send_message = () ->
 			if $scope.new_message != undefined 
 				content = {}
-				content.message = $scope.new_message
-				content.autor = $scope.username
+				content.message = $scope.safe_input($scope.new_message)
+				content.autor = $scope.safe_input($scope.username)
 				mess = {"type" : "text_mesage", "content" : content}
 				$scope.bullet.send(JSON.stringify(mess))
 				$scope.new_message = undefined
@@ -61,6 +61,15 @@ controllers.my_controller = ($scope, $http, $interval, $sanitize, $cookies) ->
 			if $event.which == 13
 				$event.preventDefault()
 				$scope.send_message()
+
+		# private funcs
+		$scope.safe_input = (input) ->
+			try
+				$sanitize(input)
+				input
+			catch error
+				#alert error
+				$("<div />").text(input).html()
 
 		$interval( (->) , 500, [], [])
 
