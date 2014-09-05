@@ -16,7 +16,7 @@ defmodule CowboyEx.OnlineUserkeeper do
 
 	defp user_entered_notification(username) do
 		Enum.each(:pg2.get_members("users"), &(send &1, {:user_entered, username}))
-		date = String.strip(System.cmd("date"))
+		date = String.strip(System.cmd("date", []) |> elem(0))
 		mess = 	EEx.eval_file :erlang.list_to_binary(:code.priv_dir(:cowboy_ex))<>"/static/ex/user_entered.ex",
 				[date: date, username: username]	
 		Enum.each(:pg2.get_members("users"), &(send &1, {:add_new_message, mess}))
@@ -25,7 +25,7 @@ defmodule CowboyEx.OnlineUserkeeper do
 	defp make_user_disconnect(username) do
 		Exdk.put "online_users", Dict.delete(Exdk.get("online_users"), username)
 		Enum.each(:pg2.get_members("users"), &(send &1, {:user_exited, username}))
-		date = String.strip(System.cmd("date"))
+		date = String.strip(System.cmd("date", []) |> elem(0))
 		mess = EEx.eval_file :erlang.list_to_binary(:code.priv_dir(:cowboy_ex))<>"/static/ex/user_exited.ex",
 				[date: date, username: username]
 		Enum.each(:pg2.get_members("users"), &(send &1, {:add_new_message, mess}))

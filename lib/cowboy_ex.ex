@@ -21,7 +21,7 @@ defmodule CowboyEx do
     :pg2.create("users")
 
     #:application.stop :lager
-    :application.start :sasl
+    #:application.start :sasl
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
@@ -54,7 +54,7 @@ defmodule CowboyEx.WebRoutes do
                         ]}
                   ])
 
-    :cowboy.start_http(:http_listener, 5000, [port: 80], [env: [
+    :cowboy.start_http(:http_listener, 5000, [port: 8084], [env: [
         dispatch: dispatch
       ]
     ])

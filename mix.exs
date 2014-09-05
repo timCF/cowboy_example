@@ -19,7 +19,7 @@ defmodule CowboyEx.Mixfile do
                     :jazz,
                     :bullet,
                     #:amnesia
-                    #:exlager
+                    :exlager
                     ],
      mod: {CowboyEx, []}]
   end
