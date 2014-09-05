@@ -6,7 +6,7 @@ defmodule CowboyEx do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    DBA.install_disk
+    #DBA.install_disk
 
     children = [  worker(CowboyEx.OnlineUserkeeper, []),
                   worker(CowboyEx.Messanger, [])
@@ -30,7 +30,7 @@ defmodule CowboyEx do
   end
 
   defp prepare_script do
-    System.cmd("cd #{:erlang.list_to_binary(:code.priv_dir(:cowboy_ex))}/static/iced && iced -c ./tim_chat.iced && mv ./tim_chat.js ../js/tim_chat.js")
+    :os.cmd("cd #{:erlang.list_to_binary(:code.priv_dir(:cowboy_ex))}/static/iced && iced -c ./tim_chat.iced && mv ./tim_chat.js ../js/tim_chat.js" |> String.to_char_list)
   end
   
 end
@@ -54,7 +54,7 @@ defmodule CowboyEx.WebRoutes do
                         ]}
                   ])
 
-    :cowboy.start_http(:http_listener, 5000, [port: 8080], [env: [
+    :cowboy.start_http(:http_listener, 5000, [port: 80], [env: [
         dispatch: dispatch
       ]
     ])
