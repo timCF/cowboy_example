@@ -54,7 +54,7 @@ defmodule CowboyEx.WebRoutes do
                         ]}
                   ])
 
-    :cowboy.start_http(:http_listener, 5000, [port: 8084], [env: [
+    :cowboy.start_http(:http_listener, 5000, [port: 8184], [env: [
         dispatch: dispatch
       ]
     ])
